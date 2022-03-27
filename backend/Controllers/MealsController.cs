@@ -1,4 +1,5 @@
 #nullable disable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace frontend.Controllers
     public class MealsController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public MealsController(DataContext context)
+        public MealsController(DataContext context, IWebHostEnvironment env)
         {
             _context = context;
+            this._env = env;
         }
 
         // GET: api/Meal
@@ -28,6 +31,7 @@ namespace frontend.Controllers
         {
             return await _context.Meals.ToListAsync();
         }
+
         // GET: api/Meal
         //[HttpGet("{dateRange}")]
         //public async Task<ActionResult<IEnumerable<Meal>>> GetTodaysMeals(string dateRange)
@@ -51,7 +55,6 @@ namespace frontend.Controllers
 
         // GET: api/Meal/5
         [HttpGet("{id}")]
-        //[Route("meal/{id:int}")]
         public async Task<ActionResult<Meal>> GetMeal(int id)
         {
             var meal = await _context.Meals.FindAsync(id);
@@ -120,6 +123,30 @@ namespace frontend.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "\\Photos\\" + filename;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            }
+            catch (Exception)
+            {
+                return new JsonResult("anonymous.png");
+            }
         }
 
         private bool MealExists(int id)

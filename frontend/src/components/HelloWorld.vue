@@ -19,7 +19,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"  @click="editClick(item)">编辑</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">删除</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" @click="deleteClick(item.id)" >删除</button>
                 </div>
                 <small class="text-muted">{{item.lastDateTime}}</small>
               </div>
@@ -47,6 +47,11 @@
             <span class="input-group-text">描述</span>
             <input type="text" class="form-control" v-model="Summary">
         </div>
+        <div class="p-2 w-50 bd-highlight">
+            <img width="250px" height="250px"
+                :src="PhotoPath+PhotoFileName"/>
+            <input class="m-2" type="file" @change="imageUpload">
+        </div>
         <button type="button" @click="createClick()"
         v-if="Id==0" class="btn btn-primary" data-bs-dismiss="modal">
         保存
@@ -62,6 +67,7 @@
 </template>
 <script>
 const API_URL ='https://localhost:7242/api/' 
+const PHOTO_URL ='https://localhost:7242/photos/'
 
 import axios from 'axios';
 export default {
@@ -71,6 +77,8 @@ export default {
       Name:"",
       Summary:"",
       modalTitle:"",
+      PhotoFileName:"anonymous.png",
+      PhotoPath:PHOTO_URL,
       rows: [ ],
       errors:[],
     }
@@ -126,13 +134,22 @@ export default {
         if(!confirm("Are you sure?")){
             return;
         }
-        axios.delete(process.env.API_URL+"department/"+id)
-        .then((response)=>{
+        axios.delete(API_URL+"Meals/"+id)
+        .then(()=>{
             this.refreshData();
-            alert(response.data);
         });
 
     },
+  imageUpload(event){
+        let formData=new FormData();
+        formData.append('file',event.target.files[0]);
+        axios.post(
+            API_URL+"Meals/savefile",
+            formData)
+            .then((response)=>{
+                this.PhotoFileName=response.data;
+            });
+    }
   },
 
   // Fetches posts when the component is created.

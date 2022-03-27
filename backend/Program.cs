@@ -1,5 +1,6 @@
 using frontend.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args); 
 // Add services to the container.
@@ -33,10 +34,18 @@ if (app.Environment.IsDevelopment())
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(Directory.GetCurrentDirectory(), @"photos")),
+    RequestPath = "/photos"
+});
+
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();
