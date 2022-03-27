@@ -13,8 +13,9 @@
       <div class="row">
         <div class="col-md-4" v-for="item in rows" :key="item.Id">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{item.name}}</text></svg>
             <div class="card-body">
+
+            <img width="250px" height="250px" :src="PhotoBasePath+ item.photoPath"/>
               <p class="card-text">{{item.summary}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
@@ -48,8 +49,7 @@
             <input type="text" class="form-control" v-model="Summary">
         </div>
         <div class="p-2 w-50 bd-highlight">
-            <img width="250px" height="250px"
-                :src="PhotoPath+PhotoFileName"/>
+            <img width="250px" height="250px" :src="PhotoBasePath+PhotoFileName"/>
             <input class="m-2" type="file" @change="imageUpload">
         </div>
         <button type="button" @click="createClick()"
@@ -67,7 +67,7 @@
 </template>
 <script>
 const API_URL ='https://localhost:7242/api/' 
-const PHOTO_URL ='https://localhost:7242/photos/'
+const PHOTO_BASE_URL ='https://localhost:7242/photos/'
 
 import axios from 'axios';
 export default {
@@ -78,7 +78,7 @@ export default {
       Summary:"",
       modalTitle:"",
       PhotoFileName:"anonymous.png",
-      PhotoPath:PHOTO_URL,
+      PhotoBasePath:PHOTO_BASE_URL,
       rows: [ ],
       errors:[],
     }
@@ -99,17 +99,20 @@ export default {
         this.Id=0;
         this.Name="";
         this.Summary ="";
+        this.PhotoFileName="anonymous.png";
     },
     editClick(item){
         this.modalTitle="编辑";
         this.Id=item.id;
         this.Name=item.name;
         this.Summary = item.summary;
+        this.PhotoFileName = item.photoPath;
     },
     createClick(){
         axios.post(API_URL+"Meals",{
             name: this.Name,
             summary: this.Summary,
+            photoPath: this.PhotoFileName,
             lastDateTime: new Date()
         })
         .then(()=>{
@@ -124,6 +127,7 @@ export default {
         axios.put(API_URL+"Meals/"+ this.Id,{
             id:this.Id,
             name:this.Name,
+            photoPath:this.PhotoFileName,
             summary:this.Summary
         })
         .then(()=>{
