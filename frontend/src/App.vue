@@ -1,13 +1,13 @@
 <template>
-  <HelloWorld />
+  <ManageMeal />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ManageMeal from './components/ManageMeal.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    ManageMeal,
   }
 }
 </script>
@@ -23,7 +23,7 @@ export default {
 }
 
 img{
-  width: 78%;
-  height: 270px;
+  width: 100%;
+  height: 200px;
 }
 </style>

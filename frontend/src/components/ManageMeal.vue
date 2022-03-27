@@ -77,6 +77,7 @@ export default {
       Name:"",
       Summary:"",
       modalTitle:"",
+      LastDateTime:"",
       PhotoFileName:"anonymous.png",
       PhotoBasePath:PHOTO_BASE_URL,
       rows: [ ],
@@ -106,6 +107,7 @@ export default {
         this.Id=item.id;
         this.Name=item.name;
         this.Summary = item.summary;
+        this.LastDateTime = item.lastDateTime;
         this.PhotoFileName = item.photoPath;
     },
     createClick(){
@@ -128,7 +130,8 @@ export default {
             id:this.Id,
             name:this.Name,
             photoPath:this.PhotoFileName,
-            summary:this.Summary
+            summary:this.Summary,
+            lastDateTime:this.LastDateTime
         })
         .then(()=>{
             this.refreshData();
