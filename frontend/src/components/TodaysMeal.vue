@@ -11,7 +11,7 @@
             <img width="250px" height="250px" :src="PhotoBasePath+ item.photoPath"/>
               <p class="card-text">{{item.summary}}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <small class="text-muted">{{item.lastDateTime}}</small>
+                <small class="text-muted">{{this.formatDate(item.lastDateTime)}}</small>
               </div>
             </div>
           </div>
@@ -25,6 +25,7 @@ const API_URL ='https://localhost:7242/api/'
 const PHOTO_BASE_URL ='https://localhost:7242/photos/'
 
 import axios from 'axios';
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -40,8 +41,12 @@ export default {
     }
   },
   methods:{
+    formatDate(value){
+      moment.locale('zh-cn');
+      return moment(value).format("LLLL");
+    },
     refreshData(){
-      axios.get(API_URL+'Meals')
+      axios.get(API_URL+'TodaysMeals')
       .then(response => {
         // JSON responses are automatically parsed.
         this.rows = response.data

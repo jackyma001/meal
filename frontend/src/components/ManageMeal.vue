@@ -22,7 +22,7 @@
                   <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"  @click="editClick(item)">编辑</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary" @click="deleteClick(item.id)" >删除</button>
                 </div>
-                <small class="text-muted">{{item.lastDateTime}}</small>
+                <small class="text-muted">{{this.formatDate(item.lastDateTime)}}</small>
               </div>
             </div>
           </div>
@@ -70,6 +70,7 @@ const API_URL ='https://localhost:7242/api/'
 const PHOTO_BASE_URL ='https://localhost:7242/photos/'
 
 import axios from 'axios';
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -85,6 +86,10 @@ export default {
     }
   },
   methods:{
+    formatDate(value){
+      moment.locale('zh-cn');
+      return moment(value).format("LLLL");
+    },
     refreshData(){
       axios.get(API_URL+'Meals')
       .then(response => {
