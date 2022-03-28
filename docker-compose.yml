@@ -1,0 +1,44 @@
+version: '3.4'
+networks:
+  dockerapi-dev:
+    driver: bridge 
+services: 
+  frontend:
+    image: mealfrontend
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+    ports: 
+      - "8080:8080"
+    depends_on: 
+      - backend
+    networks:
+      - dockerapi-dev  
+  backend:
+    image: mealbackend
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    ports: 
+      - "7242:80"
+    depends_on: 
+      - postgres
+    networks:
+      - dockerapi-dev  
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data/
+      - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "eeeqxxtg998"
+      POSTGRES_DB: "meal"
+    networks:
+      - dockerapi-dev
+volumes:
+  db_volume:
+  dbscripts:
