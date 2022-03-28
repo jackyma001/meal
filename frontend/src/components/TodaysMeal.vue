@@ -21,8 +21,8 @@
   </div>
 </template>
 <script>
-const API_URL ='https://localhost:7242/api/' 
-const PHOTO_BASE_URL ='https://localhost:7242/photos/'
+const API_URL ='http://localhost:7242/api/' 
+const PHOTO_BASE_URL ='http://localhost:7242/photos/'
 
 import axios from 'axios';
 import moment from 'moment'
