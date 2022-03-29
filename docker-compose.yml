@@ -5,27 +5,31 @@ networks:
 services: 
   frontend:
     image: mealfrontend
+    restart: unless-stopped
     build: 
       context: frontend
       dockerfile: Dockerfile
+      args:
+          VUE_APP_API_URL: https://localhost:7242
     ports: 
-      - "8080:8080"
+      - "8080:80"
     depends_on: 
       - backend
     networks:
       - dockerapi-dev  
   backend:
     image: mealbackend
+    restart: unless-stopped
     build: 
       context: backend
       dockerfile: Dockerfile
     ports: 
       - "7242:80"
     depends_on: 
-      - postgres
+      - db
     networks:
       - dockerapi-dev  
-  postgres:
+  db:
     image: postgres:latest
     ports:
       - "5432:5432"
