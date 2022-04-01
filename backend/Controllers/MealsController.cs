@@ -134,7 +134,7 @@ namespace frontend.Controllers
                 var httpRequest = Request.Form;
                 var postedFile = httpRequest.Files[0];
                 string filename = postedFile.FileName;
-                var physicalPath = _env.ContentRootPath + "\\Photos\\" + filename;
+                var physicalPath = _env.ContentRootPath + "/photos/" + filename;
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
@@ -143,9 +143,10 @@ namespace frontend.Controllers
 
                 return new JsonResult(filename);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new JsonResult("anonymous.png");
+                throw new Exception(e.Message);
+                //return new JsonResult("anonymous.png");
             }
         }
 

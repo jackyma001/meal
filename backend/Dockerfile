@@ -3,9 +3,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 RUN mkdir photos
-RUN chmod 777 photos
+RUN chmod -R 777 photos
+COPY photos* /app/photos
 EXPOSE 80
-EXPOSE 443
+EXPOSE 44
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
@@ -18,8 +19,6 @@ RUN dotnet build "backend.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "backend.csproj" -c Release -o /app/publish
 
-ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet tool install --global dotnet-ef
 #RUN dotnet ef database update
 #RUN chmod +x ./entrypoint.sh
 

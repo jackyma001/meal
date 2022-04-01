@@ -29,6 +29,8 @@ services:
       - db
     networks:
       - dockerapi-dev  
+    volumes:
+      - ./backend/photos:/app/photos
   db:
     image: postgres:latest
     ports:
