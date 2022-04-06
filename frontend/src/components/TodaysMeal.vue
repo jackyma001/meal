@@ -21,8 +21,8 @@
   </div>
 </template>
 <script>
-const API_URL ='http://localhost:7242/api/' 
-const PHOTO_BASE_URL ='http://localhost:7242/photos/'
+const API_URL =process.env.VUE_APP_API_URL+'/api/' 
+const PHOTO_BASE_URL = process.env.VUE_APP_API_URL+'/photos/'
 
 import axios from 'axios';
 import moment from 'moment'
