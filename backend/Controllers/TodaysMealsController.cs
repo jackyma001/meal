@@ -27,32 +27,30 @@ namespace frontend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Meal>>> GetMeals()
         {
-            return await _context.Meals
-                .Where(x => x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime())
-                .OrderBy(x=>Guid.NewGuid())
-                .Take(3)
-                .ToListAsync();
-        }
-        // GET: api/Meal
-        //[HttpGet("{dateRange}")]
-        //public async Task<ActionResult<IEnumerable<Meal>>> GetTodaysMeals(string dateRange)
-        //{
-        //    if(dateRange == "day")
-        //    {
-        //        return await _context.Meals
-        //            .Where(x=> x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime())
-        //            .ToListAsync();
-        //    }else if (dateRange == "week")
-        //    {
-        //        return await _context.Meals
-        //            .Where(x=> x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime())
-        //            .ToListAsync();
-        //    }
-        //    else
-        //    {
-        //        return await _context.Meals.ToListAsync();
-        //    }
-        //}
-    }
+            var freshMeal = _context.Meals
+                .Where(x => x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime());
 
+            var meat = freshMeal
+                .Where(x => x.Type == "M")
+                .OrderBy(x => Guid.NewGuid())
+                .Take(1);
+
+            var vg = freshMeal
+                .Where(x => x.Type == "V")
+                .OrderBy(x => Guid.NewGuid())
+                .Take(1);
+            var result = meat.Union(vg);
+            return await result.ToListAsync();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveTodaysMeals(IList<int> ids)
+        {
+            var meals = _context.Meals.Where(x => ids.Contains(x.Id));
+            await meals.ForEachAsync(x => x.LastDateTime = DateTime.Now.ToUniversalTime());
+            await _context.SaveChangesAsync();
+            return Ok();
+
+        }
+    }
 }

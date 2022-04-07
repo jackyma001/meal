@@ -44,6 +44,10 @@ namespace frontend.Migrations
                     b.Property<string>("Summary")
                         .HasColumnType("text");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Meals");

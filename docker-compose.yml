@@ -22,9 +22,7 @@ services:
       context: frontend
       dockerfile: Dockerfile
       args:
-          VUE_APP_API_URL: http://localhost
-    ports: 
-      - "8080:80"
+          VUE_APP_API_URL: http://192.168.50.23
     depends_on: 
       - backend
     networks:
@@ -37,9 +35,6 @@ services:
       dockerfile: Dockerfile
     environment:
       ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=meal;User Id=postgres;Password=areyouok
-    ports: 
-      - "7372:80"
-      - "7373:443"
     depends_on: 
       - db
     networks:
@@ -48,8 +43,6 @@ services:
       - ./backend/photos:/app/photos
   db:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     restart: always
     volumes:
       - db_volume:/var/lib/postgresql/data/

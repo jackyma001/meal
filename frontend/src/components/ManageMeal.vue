@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="left ">
   <button type="button"
   class="btn btn-primary m-2 fload-end"
@@ -45,6 +46,14 @@
             <input type="text" class="form-control" v-model="Name">
         </div>
         <div class="input-group mb-3">
+            <span class="input-group-text">类型</span>
+            <select v-model="SelectedType">
+              <option>M</option>
+              <option>V</option>
+              <option>S</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
             <span class="input-group-text">描述</span>
             <input type="text" class="form-control" v-model="Summary">
         </div>
@@ -64,6 +73,7 @@
 </div>
 </div>
 </div>
+</div>
 </template>
 <script>
 const API_URL =process.env.VUE_APP_API_URL+'/api/' 
@@ -79,6 +89,7 @@ export default {
       Summary:"",
       modalTitle:"",
       LastDateTime:"",
+      SelectedType:"",
       PhotoFileName:"anonymous.png",
       PhotoBasePath:PHOTO_BASE_URL,
       rows: [ ],
@@ -105,6 +116,7 @@ export default {
         this.Id=0;
         this.Name="";
         this.Summary ="";
+        this.SelectedType ="V";
         this.PhotoFileName="anonymous.png";
     },
     editClick(item){
@@ -112,6 +124,7 @@ export default {
         this.Id=item.id;
         this.Name=item.name;
         this.Summary = item.summary;
+        this.SelectedType = item.type;
         this.LastDateTime = item.lastDateTime;
         this.PhotoFileName = item.photoPath;
     },
@@ -120,6 +133,7 @@ export default {
             name: this.Name,
             summary: this.Summary,
             photoPath: this.PhotoFileName,
+            type: this.SelectedType,
             lastDateTime: new Date()
         })
         .then(()=>{
@@ -136,6 +150,7 @@ export default {
             name:this.Name,
             photoPath:this.PhotoFileName,
             summary:this.Summary,
+            type: this.SelectedType,
             lastDateTime:this.LastDateTime
         })
         .then(()=>{
@@ -150,7 +165,6 @@ export default {
         .then(()=>{
             this.refreshData();
         });
-
     },
   imageUpload(event){
         let formData=new FormData();

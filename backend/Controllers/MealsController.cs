@@ -32,27 +32,6 @@ namespace frontend.Controllers
             return await _context.Meals.ToListAsync();
         }
 
-        // GET: api/Meal
-        //[HttpGet("{dateRange}")]
-        //public async Task<ActionResult<IEnumerable<Meal>>> GetTodaysMeals(string dateRange)
-        //{
-        //    if(dateRange == "day")
-        //    {
-        //        return await _context.Meals
-        //            .Where(x=> x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime())
-        //            .ToListAsync();
-        //    }else if (dateRange == "week")
-        //    {
-        //        return await _context.Meals
-        //            .Where(x=> x.LastDateTime.AddDays(3) < DateTime.Now.ToUniversalTime())
-        //            .ToListAsync();
-        //    }
-        //    else
-        //    {
-        //        return await _context.Meals.ToListAsync();
-        //    }
-        //}
-
         // GET: api/Meal/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Meal>> GetMeal(int id)

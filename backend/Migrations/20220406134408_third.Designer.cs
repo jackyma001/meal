@@ -12,8 +12,8 @@ using frontend.Data;
 namespace frontend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220324115717_second")]
-    partial class second
+    [Migration("20220406134408_third")]
+    partial class third
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,15 @@ namespace frontend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Summary")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

@@ -1,5 +1,20 @@
 <template>
+<div>
 <div class="left ">
+  <button type="button"
+  class="btn btn-primary m-2 fload-end"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  @click="save()">
+  选好了  
+</button>
+  <button type="button"
+  class="btn btn-primary m-2 fload-end"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  @click="refreshData()">
+  重选  
+</button>
 </div>
   <div class="album py-5 bg-light">
     <div class="container">
@@ -7,10 +22,11 @@
         <div class="col-md-4" v-for="item in rows" :key="item.Id">
           <div class="card mb-4 shadow-sm">
             <div class="card-body">
-
             <img width="250px" height="250px" :src="PhotoBasePath+ item.photoPath"/>
               <p class="card-text">{{item.summary}}</p>
               <div class="d-flex justify-content-between align-items-center">
+                <input type="checkbox" id="checkbox" v-model="mealIds" value="{{item.Id}}" />
+                <label for="checkbox" >选</label>
                 <small class="text-muted">{{this.formatDate(item.lastDateTime)}}</small>
               </div>
             </div>
@@ -19,6 +35,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
 const API_URL =process.env.VUE_APP_API_URL+'/api/' 
@@ -29,14 +46,9 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      Id:0,
-      Name:"",
-      Summary:"",
-      modalTitle:"",
-      LastDateTime:"",
-      PhotoFileName:"anonymous.png",
-      PhotoBasePath:PHOTO_BASE_URL,
       rows: [ ],
+      mealIds: [],
+      PhotoBasePath:PHOTO_BASE_URL,
       errors:[],
     }
   },
@@ -44,6 +56,17 @@ export default {
     formatDate(value){
       moment.locale('zh-cn');
       return moment(value).format("LLLL");
+    },
+    save(){
+        axios.post(API_URL+"TodaysMeals", this.mealIds
+        )
+        .then(()=>{
+          alert("选好了");
+        })
+      .catch(e => {
+        this.errors.push(e)
+      })
+        ;
     },
     refreshData(){
       axios.get(API_URL+'TodaysMeals')
