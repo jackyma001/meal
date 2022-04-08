@@ -17,3 +17,4 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Meals"
     OWNER to postgres;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

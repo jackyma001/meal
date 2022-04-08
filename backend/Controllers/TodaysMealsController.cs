@@ -33,23 +33,26 @@ namespace frontend.Controllers
             var meat = freshMeal
                 .Where(x => x.Type == "M")
                 .OrderBy(x => Guid.NewGuid())
-                .Take(1);
-
+                .Take(2);
             var vg = freshMeal
                 .Where(x => x.Type == "V")
                 .OrderBy(x => Guid.NewGuid())
+                .Take(3);
+            var soup = freshMeal
+                .Where(x => x.Type == "S")
+                .OrderBy(x => Guid.NewGuid())
                 .Take(1);
-            var result = meat.Union(vg);
+            var result = meat.Union(vg).Union(soup);
             return await result.ToListAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveTodaysMeals(IList<int> ids)
+        public async Task<ActionResult<IEnumerable<Meal>>> SaveTodaysMeals(IList<int> ids)
         {
             var meals = _context.Meals.Where(x => ids.Contains(x.Id));
             await meals.ForEachAsync(x => x.LastDateTime = DateTime.Now.ToUniversalTime());
             await _context.SaveChangesAsync();
-            return Ok();
+            return await meals.ToListAsync();
 
         }
     }

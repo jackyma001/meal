@@ -65,8 +65,13 @@ export default {
   color: #2c3e50;
 }
 
-img{
+img.card{
   width: 100%;
   height: 200px;
+}
+
+img.icon{
+  width: 64px;
+  height: 64px;
 }
 </style>

@@ -15,9 +15,12 @@
         <div class="col-md-4" v-for="item in rows" :key="item.Id">
           <div class="card mb-4 shadow-sm">
             <div class="card-body">
-
-            <img width="250px" height="250px" :src="PhotoBasePath+ item.photoPath"/>
+            <b-img thumbnail fluid class="card" :src="PhotoBasePath+ item.photoPath"/>
               <p class="card-text">{{item.summary}}</p>
+                <img class="icon" v-if="item.type==='M'" src="../assets/meat.png" />
+                <img class="icon" v-else-if="item.type==='V'" src="../assets/vegetable.png" />
+                <img class="icon" v-else-if="item.type==='S'" src="../assets/soup.png" />
+                <img class="icon" v-else src="../assets/meal.png" />
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"  @click="editClick(item)">编辑</button>
@@ -48,9 +51,9 @@
         <div class="input-group mb-3">
             <span class="input-group-text">类型</span>
             <select v-model="SelectedType">
-              <option>M</option>
-              <option>V</option>
-              <option>S</option>
+              <option v-for="option in options" :key="option.value" :value="option.value">
+                  {{ option.text }}
+                </option>
             </select>
         </div>
         <div class="input-group mb-3">
@@ -94,6 +97,11 @@ export default {
       PhotoBasePath:PHOTO_BASE_URL,
       rows: [ ],
       errors:[],
+      options: [
+        { text: '蔬菜', value: 'V' },
+        { text: '肉', value: 'M' },
+        { text: '汤', value: 'S' }
+      ]
     }
   },
   methods:{
@@ -134,7 +142,7 @@ export default {
             summary: this.Summary,
             photoPath: this.PhotoFileName,
             type: this.SelectedType,
-            lastDateTime: new Date()
+            lastDateTime:"2022-01-08T06:32:59.388Z" 
         })
         .then(()=>{
             this.refreshData();
