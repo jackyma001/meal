@@ -38,5 +38,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: meal/frontend
-        dockerfile: curriculum-front/Dockerfile
+        dockerfile: frontend/Dockerfile
         tags: latest
