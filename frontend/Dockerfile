@@ -7,11 +7,11 @@ ENV VUE_APP_API_URL ${VUE_APP_API_URL}
 WORKDIR /app
 
 # copy 'package.json' to install dependencies
-COPY frontend/package*.json ./
+COPY package*.json ./
 # install dependencies
 RUN npm install
 # copy files and folders to the current working directory (i.e. 'app' folder)
-COPY frontend/. .
+COPY . .
 # build app for production with minification
 RUN npm run build
 
