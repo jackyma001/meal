@@ -39,7 +39,6 @@
       </div>
     </div>
   </div>
-<div>Checked names: {{ mealIds }}</div>
 </div>
 </template>
 <script>
