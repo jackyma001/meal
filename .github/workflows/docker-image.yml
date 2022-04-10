@@ -26,4 +26,4 @@ jobs:
         with:
           context: "{{defaultContext}}:frontend"
           push: true
-          tags: user/app:latest
+          tags: jackyma001/frontend:latest
