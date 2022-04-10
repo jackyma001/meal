@@ -12,5 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
+    - name: Build backend
       run: docker build -f ./backend/Dockerfile .
+    - name: Build frontend 
+      run: docker build -f ./frontend/Dockerfile .
