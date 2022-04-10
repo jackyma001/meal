@@ -23,7 +23,7 @@
           <div class="card mb-4 shadow-sm" @click="selectMeal(item.id)">
             <div class="card-body" >
             <b-img class="card" :src="PhotoBasePath + item.photoPath"/>
-              <p class="card-text">{{item.summary}}</p>
+              <p class="card-text">{{item.name}}</p>
                 <img class="icon" v-if="item.type==='M'" src="../assets/meat.png" />
                 <img class="icon" v-else-if="item.type==='V'" src="../assets/vegetable.png" />
                 <img class="icon" v-else-if="item.type==='S'" src="../assets/soup.png" />

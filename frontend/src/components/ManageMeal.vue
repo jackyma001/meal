@@ -16,6 +16,7 @@
           <div class="card mb-4 shadow-sm">
             <div class="card-body">
             <b-img thumbnail fluid class="card" :src="PhotoBasePath+ item.photoPath"/>
+              <p class="card-text">{{item.name}}</p>
               <p class="card-text">{{item.summary}}</p>
                 <img class="icon" v-if="item.type==='M'" src="../assets/meat.png" />
                 <img class="icon" v-else-if="item.type==='V'" src="../assets/vegetable.png" />
@@ -61,7 +62,7 @@
             <input type="text" class="form-control" v-model="Summary">
         </div>
         <div class="p-2 w-50 bd-highlight">
-            <img width="250px" height="250px" :src="PhotoBasePath+PhotoFileName"/>
+            <img class="card" :src="PhotoBasePath+PhotoFileName"/>
             <input class="m-2" type="file" @change="imageUpload">
         </div>
         <button type="button" @click="createClick()"
