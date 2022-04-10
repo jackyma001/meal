@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 RUN mkdir photos
 RUN chmod -R 777 photos
-COPY photos* /app/photos
+COPY /backend/photos* /app/photos
 EXPOSE 80
 EXPOSE 44
 
