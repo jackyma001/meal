@@ -6,7 +6,7 @@ RUN mkdir photos
 RUN chmod -R 777 photos
 COPY photos* /app/photos
 EXPOSE 80
-EXPOSE 44
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src

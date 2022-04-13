@@ -4,27 +4,15 @@ networks:
     driver: bridge 
 services: 
   nginx: 
-    image: nginx:1.17.10
+    image: jackyma001/nginx
     depends_on: 
       - frontend
       - backend
     networks:
       - dockerapi-dev  
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
-      - /ssl:/ssl
-
   frontend:
     image: jackyma001/mealfrontend
     restart: unless-stopped
-    build: 
-      context: frontend
-      dockerfile: Dockerfile
-      args:
-          VUE_APP_API_URL: http://192.168.50.205
     depends_on: 
       - backend
     networks:
@@ -32,31 +20,18 @@ services:
   backend:
     image: jackyma001/mealbackend
     restart: unless-stopped
-    build: 
-      context: backend
-      dockerfile: Dockerfile
     environment:
       ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=meal;User Id=postgres;Password=areyouok
     depends_on: 
       - db
     networks:
       - dockerapi-dev  
-    volumes:
-      - ./backend/photos:/app/photos
   db:
-    image: postgres:latest
+    image: jackyma001/postgres:latest
     restart: always
-    ports:
-      - 5430:5432
-    volumes:
-      - db_volume:/var/lib/postgresql/data/
-      - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "areyouok"
-      POSTGRES_DB: "meal"
     networks:
       - dockerapi-dev
+    volumes:
+      - db_volume:/var/lib/postgresql/data/
 volumes:
   db_volume:
-  dbscripts:

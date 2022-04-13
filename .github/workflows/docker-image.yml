@@ -35,6 +35,13 @@ jobs:
           context: "{{defaultContext}}:backend"
           push: true
           tags: jackyma001/mealbackend:latest
+      -
+        name: Build and push db 
+        uses: docker/build-push-action@v2
+        with:
+          context: "{{defaultContext}}:db"
+          push: true
+          tags: jackyma001/postgres:latest
   deploy:
       runs-on: ubuntu-latest
       needs: build_and_push

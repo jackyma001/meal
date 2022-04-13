@@ -1,0 +1,30 @@
+version: '3.4'
+services: 
+  nginx: 
+    build: 
+      context: nginx 
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+  frontend:
+    restart: unless-stopped
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+          VUE_APP_API_URL: http://192.168.50.205
+  backend:
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=meal;User Id=postgres;Password=areyouok
+  db:
+    restart: always
+    ports:
+      - 5430:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "areyouok"
+      POSTGRES_DB: "meal"
