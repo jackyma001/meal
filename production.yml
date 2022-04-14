@@ -3,7 +3,7 @@ services:
   nginx: 
     restart: always
     volumes:
-      - /ssl/:/ssl/
+      - /ssl:/ssl
   frontend:
     restart: always
   backend:
