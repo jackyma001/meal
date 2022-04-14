@@ -5,7 +5,9 @@ services:
   frontend:
     restart: always
     environment:
-      API_RUL:${API_URL} 
+      API_URL:${API_URL} 
+  volumes:
+    - /ssl/:/ssl/
   backend:
     environment:
       ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=meal;User Id=postgres;Password=areyouok
