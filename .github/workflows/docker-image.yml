@@ -64,6 +64,7 @@ jobs:
             port: 22
             script: |
               cd /app/meal
+              git pull
               docker-compose stop
               docker-compose rm -f
               docker-compose pull

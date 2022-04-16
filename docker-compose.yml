@@ -23,6 +23,8 @@ services:
   backend:
     image: jackyma001/mealbackend
     restart: unless-stopped
+    volumes:
+          - ./backend/photos:/app/photos
     environment:
       ConnectionStrings__DefaultConnection: Server=db;Port=5432;Database=meal;User Id=postgres;Password=areyouok
     depends_on: 
