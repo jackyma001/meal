@@ -3,16 +3,6 @@ networks:
   dockerapi-dev:
     driver: bridge 
 services: 
-  nginx: 
-    image: jackyma001/nginx
-    depends_on: 
-      - frontend
-      - backend
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - dockerapi-dev  
   frontend:
     image: jackyma001/mealfrontend
     restart: unless-stopped

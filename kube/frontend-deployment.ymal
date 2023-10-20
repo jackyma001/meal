@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meal-frontend
+spec:
+  replicas: 3 # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: meal-frontend
+  template:
+    metadata:
+      labels:
+        app: meal-frontend
+    spec:
+      containers:
+        - name: meal-frontend
+          image: jackyma001/mealfrontend
+          ports:
+            - containerPort: 80 # Port your frontend application listens on

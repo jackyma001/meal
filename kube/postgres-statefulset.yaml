@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: meal-postgres
+spec:
+  serviceName: "meal-postgres"
+  replicas: 1 # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: meal-postgres
+  template:
+    metadata:
+      labels:
+        app: meal-postgres
+    spec:
+      containers:
+        - name: meal-postgres
+          image: jackyma001/postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: areyouok
+            - name: POSTGRES_DB
+              value: meal
+          ports:
+            - containerPort: 5432 # Port your PostgreSQL container listens on
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meal-postgres-service
+spec:
+  selector:
+    app: meal-postgres
+  ports:
+    - protocol: TCP
+      port: 5432 # Port for PostgreSQL
