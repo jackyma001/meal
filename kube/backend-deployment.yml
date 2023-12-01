@@ -13,7 +13,7 @@ spec:
       - name: meal-backend
         image: jackyma001/mealbackend
         ports:
-        - containerPort: 80 # Port your backend application listens on
+        - containerPort: 8080 # Port your backend application listens on
         env:
         - name: ConnectionStrings__DefaultConnection
           value: "Server=meal-postgres-service;Port=5432;Database=meal;User Id=postgres;Password=areyouok"
@@ -32,5 +32,5 @@ spec:
     app: meal-backend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
