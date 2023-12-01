@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meal-backend
+spec:
+  replicas: 1 # You can adjust the number of replicas as needed
+  template:
+    metadata:
+      labels:
+        app: meal-backend
+    spec:
+      containers:
+      - name: meal-backend
+        image: jackyma001/mealbackend
+        ports:
+        - containerPort: 80 # Port your backend application listens on
+        env:
+        - name: ConnectionStrings__DefaultConnection
+          value: "Server=meal-postgres-service;Port=5432;Database=meal;User Id=postgres;Password=areyouok"
+  selector:
+    matchLabels:
+      app: meal-backend
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: meal-backend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: meal-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -4,15 +4,24 @@ networks:
     driver: bridge 
 services: 
   frontend:
-    image: jackyma001/mealfrontend
-    restart: unless-stopped
+    image: mealfrontend
+    ports:
+      - 80:80
+    build: 
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+          VUE_APP_API_URL: 
+
     depends_on: 
       - backend
     networks:
       - dockerapi-dev  
   backend:
-    image: jackyma001/mealbackend
-    restart: unless-stopped
+    image: mealbackend
+    build: 
+      context: backend
+      dockerfile: Dockerfile
     volumes:
           - ./backend/photos:/app/photos
     environment:
@@ -23,7 +32,12 @@ services:
       - dockerapi-dev  
   db:
     image: jackyma001/postgres:latest
-    restart: always
+    ports:
+      - 5430:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "areyouok"
+      POSTGRES_DB: "meal"
     networks:
       - dockerapi-dev
     volumes:

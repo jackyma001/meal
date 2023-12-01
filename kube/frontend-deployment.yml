@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: meal-frontend
 spec:
-  replicas: 3 # You can adjust the number of replicas as needed
+  replicas: 1 # You can adjust the number of replicas as needed
   selector:
     matchLabels:
       app: meal-frontend
@@ -17,3 +17,17 @@ spec:
           image: jackyma001/mealfrontend
           ports:
             - containerPort: 80 # Port your frontend application listens on
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: meal-frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: meal-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
